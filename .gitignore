@@ -1,0 +1,61 @@
+# Node modules
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+client/.pnp/
+client/.pnp.js
+server/.pnp/
+server/.pnp.js
+
+# Build directories
+client/build/
+server/build/
+
+# dotenv environment files
+client/.env
+server/.env
+
+# Temporary files
+*.tmp
+*.swp
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Coverage directories
+client/coverage/
+server/coverage/
+
+# Dist directories
+client/dist/
+server/dist/
+
+# Miscellaneous
+*.local
+*.cache
+*.test.js.snap
+
+# React specific
+client/.next/
+client/out/
+client/.turbo/
+client/.eslintcache
