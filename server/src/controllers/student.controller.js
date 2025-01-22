@@ -78,9 +78,7 @@ export const signin_controller = async (req, res) => {
 export const add_student_marks = async (req, res) => {
   try {
     const { standard, remarks, percentage } = req.body;
-    console.log(req.user);
     const { studentId } = req.user;
-    console.log(standard, remarks, percentage, studentId);
     const studentDetails = await Student.findById(studentId);
     if (!studentDetails) {
       return res
@@ -88,7 +86,6 @@ export const add_student_marks = async (req, res) => {
         .json(new ApiError(404, "Student not found").toJSON());
     }
     // Ensure the `standard` is less than the student's `currentStandard`
-    console.log(standard, studentDetails.currentStandard);
     if (standard >= studentDetails.currentStandard) {
       return res
         .status(400)
@@ -99,9 +96,8 @@ export const add_student_marks = async (req, res) => {
           ).toJSON()
         );
     }
-    // Find if the standard already exists in previousDetails
     const existingDetail = studentDetails.previousDetails.find(
-      (detail) => detail.standard === standard
+      (detail) => detail.standard === Number(standard)
     );
     if (existingDetail) {
       return res
@@ -162,9 +158,7 @@ export const get_student_marks = async (req, res) => {
 export const update_student_marks = async (req, res) => {
   try {
     const { standard, remarks, percentage } = req.body;
-    console.log(req.user);
     const { studentId } = req.user;
-    console.log(standard, remarks, percentage, studentId);
     const studentDetails = await Student.findById(studentId);
     if (!studentDetails) {
       return res
@@ -172,7 +166,6 @@ export const update_student_marks = async (req, res) => {
         .json(new ApiError(404, "Student not found").toJSON());
     }
     // Find the details from the
-    console.log(standard, studentDetails.currentStandard);
     if (standard >= studentDetails.currentStandard) {
       return res
         .status(400)
@@ -184,10 +177,11 @@ export const update_student_marks = async (req, res) => {
         );
     }
     // Find if the standard already exists in previousDetails
+    console.log(standard);
     const existingDetail = studentDetails.previousDetails.find(
-      (detail) => detail.standard === standard
+      (detail) => detail.standard === Number(standard)
     );
-
+    console.log(existingDetail);
     if (existingDetail) {
       // Update existing details
       existingDetail.remarks = remarks;

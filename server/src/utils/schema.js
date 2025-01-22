@@ -26,10 +26,7 @@ export const signupSchema = yup.object({
 });
 
 export const prevMarksSchema = yup.object({
-  standard: yup
-    .number()
-    .required("Name is required.")
-    .min(2, "Name must be at least 2 characters long."),
+  standard: yup.number().required("standard is required."),
   remarks: yup.string().required("String is required."),
   percentage: yup
     .number()
