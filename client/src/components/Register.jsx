@@ -32,7 +32,7 @@ export default function Register() {
     }
   };
   return (
-    <Box width={600} margin="auto" marginTop="5rem">
+    <Box margin="auto" marginTop="5rem">
       <Card>
         <CardContent sx={{ padding: "1rem" }}>
           <Typography variant="h5" component="div">

@@ -5,16 +5,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { apiService } from "../utils/apiService";
 import AddPreviousRecord from "./AddPreviousRecord";
 import EditPreviousRecord from "./EditPreviousRecord";
 import { useRecordDetails } from "../context/recordContext";
-import { useUserDetails } from "../context/userContext";
 
 export default function StudentDetails() {
-  const { removeUserInfo } = useUserDetails();
   const { records, currentStandard, updateInfo } = useRecordDetails();
   const fetchPrevDetails = async () => {
     const response = await apiService.getPrevDetails();
@@ -40,9 +38,6 @@ export default function StudentDetails() {
           <Typography variant="h5" align="center">
             All records Added
           </Typography>
-          <Button variant="outlined" onClick={() => removeUserInfo()}>
-            Logout
-          </Button>
         </Box>
       )}
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
