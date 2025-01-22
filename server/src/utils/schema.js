@@ -24,3 +24,16 @@ export const signupSchema = yup.object({
     .required("Password is required.")
     .min(6, "Password must be at least 6 characters long."),
 });
+
+export const prevMarksSchema = yup.object({
+  standard: yup
+    .number()
+    .required("Name is required.")
+    .min(2, "Name must be at least 2 characters long."),
+  remarks: yup.string().required("String is required."),
+  percentage: yup
+    .number()
+    .required()
+    .min(0, "Percentage cannot be below 0.")
+    .max(100, "Percentage cannot be more than 100."),
+});

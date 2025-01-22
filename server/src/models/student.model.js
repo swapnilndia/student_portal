@@ -5,13 +5,6 @@ const prevDetailsSchema = new Schema({
   standard: {
     type: Number,
     required: true,
-    validate: {
-      validator: function (value) {
-        return value < this.currentStandard; // Ensure the standard is less than currentStandard
-      },
-      message:
-        "Previous marks can only be saved for standards less than the current standard.",
-    },
   },
   remarks: {
     type: String,
@@ -20,8 +13,8 @@ const prevDetailsSchema = new Schema({
   percentage: {
     type: Number,
     required: true,
-    min: [0, "Percentage cannot be less than 0, instead found {value}"],
-    max: [100, "Percentage cannot exceed 100, instead found {value}"],
+    min: [0, "Percentage cannot be less than 0, instead found {VALUE}"],
+    max: [100, "Percentage cannot exceed 100, instead found {VALUE}"],
   },
 });
 
@@ -46,8 +39,8 @@ const studentSchema = new Schema(
     currentStandard: {
       type: Number,
       required: [true, "Current Standard is a required field"],
-      min: [1, "Standard cannot be less than 1, instead got {value} "],
-      max: [12, "Standard cannot be more than 12, instead got {value}"],
+      min: [1, "Standard cannot be less than 1, instead got {VALUE} "],
+      max: [12, "Standard cannot be more than 12, instead got {VALUE}"],
     },
     password: {
       type: String,

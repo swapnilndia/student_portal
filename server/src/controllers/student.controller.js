@@ -53,21 +53,166 @@ export const signin_controller = async (req, res) => {
   const { _id, currentStandard } = req.user;
   try {
     const access_token = generateAccessToken({ studentId: _id, email });
-    res.status(200).json(
-      new ApiResponse(
-        200,
-        "User successfully logged in",
-        {
-          studentId: _id,
-          currentStandard,
-          access_token,
-        },
-        null
-      ).toJSON()
-    );
+    if (access_token) {
+      return res.status(200).json(
+        new ApiResponse(
+          200,
+          "User successfully logged in",
+          {
+            studentId: _id,
+            currentStandard,
+            access_token,
+          },
+          null
+        ).toJSON()
+      );
+    }
+    throw new Error("Unable to generate Access token");
   } catch (error) {
     return res
       .status(500)
       .json(new ApiError("500", "Something went wrong", error).toJSON());
+  }
+};
+
+export const add_student_marks = async (req, res) => {
+  try {
+    const { standard, remarks, percentage } = req.body;
+    console.log(req.user);
+    const { studentId } = req.user;
+    console.log(standard, remarks, percentage, studentId);
+    const studentDetails = await Student.findById(studentId);
+    if (!studentDetails) {
+      return res
+        .status(404)
+        .json(new ApiError(404, "Student not found").toJSON());
+    }
+    // Ensure the `standard` is less than the student's `currentStandard`
+    console.log(standard, studentDetails.currentStandard);
+    if (standard >= studentDetails.currentStandard) {
+      return res
+        .status(400)
+        .json(
+          new ApiError(
+            400,
+            `Standard must be less than the current standard (${studentDetails.currentStandard}).`
+          ).toJSON()
+        );
+    }
+    // Find if the standard already exists in previousDetails
+    const existingDetail = studentDetails.previousDetails.find(
+      (detail) => detail.standard === standard
+    );
+    if (existingDetail) {
+      return res
+        .status(400)
+        .json(
+          new ApiError(
+            400,
+            `Cannot add results for the same standard 2 times. Please update the previous details.`
+          ).toJSON()
+        );
+    }
+    // Add the new previous details to the array
+    studentDetails.previousDetails.push({ standard, remarks, percentage });
+
+    // Save the updated student document
+    await studentDetails.save();
+
+    // Respond with success
+    return res.status(201).json(
+      new ApiResponse(201, "Previous details added successfully", {
+        studentId,
+        previousDetails: studentDetails.previousDetails,
+      }).toJSON()
+    );
+  } catch (error) {
+    console.error("Error adding previous details:", error);
+    return res.status(500).json(
+      new ApiError(500, "An error occurred while adding previous details", {
+        error: error.message,
+      }).toJSON()
+    );
+  }
+};
+
+export const get_student_marks = async (req, res) => {
+  try {
+    const { studentId } = req.user;
+    const studentDetails = await Student.findById(studentId);
+    if (!studentDetails) {
+      return res
+        .status(404)
+        .json(new ApiError(404, "Student not found").toJSON());
+    }
+    return res.status(200).json(
+      new ApiResponse(200, "Students details fetched successfully", {
+        studentDetails,
+      }).toJSON()
+    );
+  } catch (error) {
+    console.error("Error fetching student details:", error);
+    return res.status(500).json(
+      new ApiError(500, "An error occurred while fetching details", {
+        error: error.message,
+      }).toJSON()
+    );
+  }
+};
+export const update_student_marks = async (req, res) => {
+  try {
+    const { standard, remarks, percentage } = req.body;
+    console.log(req.user);
+    const { studentId } = req.user;
+    console.log(standard, remarks, percentage, studentId);
+    const studentDetails = await Student.findById(studentId);
+    if (!studentDetails) {
+      return res
+        .status(404)
+        .json(new ApiError(404, "Student not found").toJSON());
+    }
+    // Find the details from the
+    console.log(standard, studentDetails.currentStandard);
+    if (standard >= studentDetails.currentStandard) {
+      return res
+        .status(400)
+        .json(
+          new ApiError(
+            400,
+            `Standard must be less than the current standard (${studentDetails.currentStandard}).`
+          ).toJSON()
+        );
+    }
+    // Find if the standard already exists in previousDetails
+    const existingDetail = studentDetails.previousDetails.find(
+      (detail) => detail.standard === standard
+    );
+
+    if (existingDetail) {
+      // Update existing details
+      existingDetail.remarks = remarks;
+      existingDetail.percentage = percentage;
+    } else {
+      // Add new previous detail
+      studentDetails.previousDetails.push({ standard, remarks, percentage });
+    }
+
+    // Save the updated student document
+    await studentDetails.save();
+
+    // Respond with success
+    return res.status(200).json(
+      new ApiResponse(200, "Previous details updated successfully", {
+        studentId,
+        previousDetails: studentDetails.previousDetails,
+      }).toJSON()
+    );
+  } catch (error) {
+    console.error("Error adding previous details:", error);
+    return res.status(500).json(
+      new ApiError(500, "An error occurred while adding previous details", {
+        error: error.message,
+      }).toJSON()
+    );
   }
 };
