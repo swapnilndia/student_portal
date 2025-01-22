@@ -49,7 +49,8 @@ export const signup_controller = async (req, res) => {
 
 export const signin_controller = async (req, res) => {
   const { email } = req.body;
-  const { _id } = req.user;
+  console.log(req.user);
+  const { _id, currentStandard } = req.user;
   try {
     const access_token = generateAccessToken({ studentId: _id, email });
     res.status(200).json(
@@ -57,6 +58,8 @@ export const signin_controller = async (req, res) => {
         200,
         "User successfully logged in",
         {
+          studentId: _id,
+          currentStandard,
           access_token,
         },
         null
