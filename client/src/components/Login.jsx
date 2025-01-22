@@ -57,7 +57,7 @@ export default function Login() {
               margin="normal"
               id="password"
               name="password"
-              label="password"
+              label="Password"
               type="password"
               fullWidth
               variant="outlined"

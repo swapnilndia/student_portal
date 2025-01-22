@@ -14,9 +14,7 @@ const index = () => {
       <Grid2 item>
         <StudentDetails />
       </Grid2>
-      <Grid2 item>
-        <StudentDetails />
-      </Grid2>
+      <Grid2 item>{/* <StudentDetails /> */}</Grid2>
     </Grid2>
   );
 };
