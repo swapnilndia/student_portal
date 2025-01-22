@@ -34,6 +34,7 @@ export const signup_controller = async (req, res) => {
         new ApiResponse(201, "User successfully Signed Up", createUser).toJSON()
       );
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .json(

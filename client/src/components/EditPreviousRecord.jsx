@@ -11,12 +11,11 @@ import { Box } from "@mui/material";
 import { apiService } from "../utils/apiService";
 import EditIcon from "@mui/icons-material/Edit";
 
-export default function EditPreviousRecord({ row }) {
+export default function EditPreviousRecord({ row, fetchPrevDetails }) {
   const [open, setOpen] = React.useState(false);
 
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -30,7 +29,7 @@ export default function EditPreviousRecord({ row }) {
     try {
       const response = await apiService.editDetails(data);
       if (response) {
-        apiService.getPrevDetails();
+        fetchPrevDetails();
         handleClose();
       } else {
         console.error("Failed to update details.");
@@ -45,7 +44,6 @@ export default function EditPreviousRecord({ row }) {
   };
 
   const handleClose = () => {
-    reset();
     setOpen(false);
   };
 
@@ -129,4 +127,5 @@ EditPreviousRecord.propTypes = {
     remarks: PropTypes.string.isRequired,
     percentage: PropTypes.number.isRequired,
   }).isRequired,
+  fetchPrevDetails: PropTypes.func.isRequired,
 };

@@ -5,6 +5,7 @@ const prevDetailsSchema = new Schema({
   standard: {
     type: Number,
     required: true,
+    default: null,
   },
   remarks: {
     type: String,

@@ -11,10 +11,9 @@ const index = () => {
         alignItems: "center",
       }}
     >
-      <Grid2 item>
+      <Grid2>
         <StudentDetails />
       </Grid2>
-      <Grid2 item>{/* <StudentDetails /> */}</Grid2>
     </Grid2>
   );
 };

@@ -5,31 +5,45 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Button, Typography } from "@mui/material";
+import { useEffect } from "react";
 import { apiService } from "../utils/apiService";
 import AddPreviousRecord from "./AddPreviousRecord";
-import EditIcon from "@mui/icons-material/Edit";
 import EditPreviousRecord from "./EditPreviousRecord";
+import { useRecordDetails } from "../context/recordContext";
+import { useUserDetails } from "../context/userContext";
 
 export default function StudentDetails() {
-  const [list, setList] = useState([]);
-  const [pendingRecords, setPendingRecords] = useState(0);
-  const [currentStandard, setCurrentStandard] = useState(0);
+  const { removeUserInfo } = useUserDetails();
+  const { records, currentStandard, updateInfo } = useRecordDetails();
   const fetchPrevDetails = async () => {
     const response = await apiService.getPrevDetails();
-    console.log(response);
-    setList(response.previousDetails);
-    setCurrentStandard(response.currentStandard);
-    setPendingRecords(response.currentStandard - 1 - list.length);
+    updateInfo(response);
   };
+  const pendingRecords = currentStandard - records.length;
   useEffect(() => {
     fetchPrevDetails();
   }, []);
+
   return (
     <TableContainer component={Paper}>
-      {pendingRecords > 0 && (
-        <AddPreviousRecord list={list} currentStandard={currentStandard} />
+      {pendingRecords > 1 ? (
+        <AddPreviousRecord fetchPrevDetails={fetchPrevDetails} />
+      ) : (
+        <Box
+          padding="1rem"
+          display="flex"
+          justifyContent="space-between"
+          alignItems="flex-end"
+          gap={2}
+        >
+          <Typography variant="h5" align="center">
+            All records Added
+          </Typography>
+          <Button variant="outlined" onClick={() => removeUserInfo()}>
+            Logout
+          </Button>
+        </Box>
       )}
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -48,11 +62,11 @@ export default function StudentDetails() {
             </TableCell>
           </TableRow>
         </TableHead>
-        {list.length > 0 ? (
+        {records.length > 0 ? (
           <TableBody>
-            {list.map((row) => (
+            {records.map((row) => (
               <TableRow
-                key={row.standard}
+                key={row._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
@@ -61,16 +75,22 @@ export default function StudentDetails() {
                 <TableCell align="right">{row.remarks}</TableCell>
                 <TableCell align="right">{row.percentage}</TableCell>
                 <TableCell align="right">
-                  <EditPreviousRecord row={row} />
+                  <EditPreviousRecord
+                    key={row._id}
+                    row={row}
+                    fetchPrevDetails={fetchPrevDetails}
+                  />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         ) : (
           <TableBody>
-            <TableCell colSpan={5} align="center">
-              <Typography>Kindly update your Previous marks</Typography>
-            </TableCell>
+            <TableRow>
+              <TableCell colSpan={5} align="center">
+                <Typography>Kindly update your Previous marks</Typography>
+              </TableCell>
+            </TableRow>
           </TableBody>
         )}
       </Table>

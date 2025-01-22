@@ -4,25 +4,30 @@ import { useForm } from "react-hook-form";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import { apiService } from "../utils/apiService";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { signupSchema } from "../utils/schema";
 
 export default function Register() {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: "swapnil1@gmail.com",
-      name: "swapnil",
-      rollNumber: "SWAP123",
-      currentStandard: 12,
-      password: "123456",
+      email: "",
+      name: "",
+      rollNumber: "",
+      currentStandard: 0,
+      password: "",
     },
+    resolver: yupResolver(signupSchema),
   });
   const onSubmit = async (data) => {
     const response = await apiService.studentRegister(data);
     if (response.status === 201) {
+      reset();
       navigate("/login");
     }
   };
@@ -39,7 +44,6 @@ export default function Register() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <TextField
               autoFocus
-              required
               margin="normal"
               id="email"
               name="email"
@@ -52,7 +56,6 @@ export default function Register() {
             />
             <TextField
               autoFocus
-              required
               margin="normal"
               id="name"
               name="name"
@@ -65,7 +68,6 @@ export default function Register() {
             />
             <TextField
               autoFocus
-              required
               margin="normal"
               id="rollNumber"
               name="rollNumber"
@@ -78,7 +80,6 @@ export default function Register() {
             />
             <TextField
               autoFocus
-              required
               margin="normal"
               id="currentStandard"
               name="currentStandard"
@@ -91,7 +92,6 @@ export default function Register() {
             />
             <TextField
               autoFocus
-              required
               margin="normal"
               id="password"
               name="password"

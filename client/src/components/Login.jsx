@@ -12,11 +12,12 @@ export default function Login() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: "swapnil1@gmail.com",
-      password: "123456",
+      email: "",
+      password: "",
     },
   });
   const onSubmit = async (data) => {
@@ -24,6 +25,7 @@ export default function Login() {
 
     if (response.status === 200) {
       saveUserInfo(response.data);
+      reset();
       navigate("/");
     }
   };

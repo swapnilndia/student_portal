@@ -6,6 +6,7 @@ import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated";
 import RequireAuth from "./components/RequireAuth";
 import { Route, Routes } from "react-router";
 import UserDetailsContextProvider from "./context/userContext";
+import RecordContextProvider from "./context/recordContext";
 const App = () => {
   return (
     <>
@@ -16,7 +17,14 @@ const App = () => {
             <Route path="/register" element={<Register />}></Route>
           </Route>
           <Route element={<RequireAuth />}>
-            <Route path="/" element={<Dashboard />}></Route>
+            <Route
+              path="/"
+              element={
+                <RecordContextProvider>
+                  <Dashboard />{" "}
+                </RecordContextProvider>
+              }
+            ></Route>
           </Route>
         </Routes>
       </UserDetailsContextProvider>

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-
+import PropTypes from "prop-types";
 // Create the Context
 export const UserDetails = createContext();
 
@@ -40,6 +40,9 @@ const UserDetailsContextProvider = ({ children }) => {
   const value = { user, saveUserInfo, removeUserInfo };
 
   return <UserDetails.Provider value={value}>{children}</UserDetails.Provider>;
+};
+UserDetailsContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default UserDetailsContextProvider;
