@@ -42,7 +42,6 @@ export default function Login() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <TextField
               autoFocus
-              required
               margin="normal"
               id="email"
               name="email"
@@ -54,8 +53,6 @@ export default function Login() {
               helperText={errors.email?.message}
             />
             <TextField
-              autoFocus
-              required
               margin="normal"
               id="password"
               name="password"
@@ -72,14 +69,15 @@ export default function Login() {
           </form>
 
           <Box
-            padding="1rem"
-            width="100%"
+            marginTop="1rem"
             display="flex"
             justifyContent="space-between"
             alignItems="flex-start"
           >
             <Typography component="span">Do not Have an Account ?</Typography>{" "}
-            <Button onClick={() => navigate("/register")}>Register</Button>
+            <Button variant="outlined" onClick={() => navigate("/register")}>
+              Register
+            </Button>
           </Box>
         </CardContent>
       </Card>

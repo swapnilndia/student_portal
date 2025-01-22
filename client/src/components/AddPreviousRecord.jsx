@@ -139,8 +139,6 @@ export default function AddPreviousRecord({ fetchPrevDetails }) {
               helperText={errors.percentage?.message}
             />
             <Box
-              padding="1rem"
-              width="100%"
               display="flex"
               justifyContent="flex-end"
               alignItems="flex-end"

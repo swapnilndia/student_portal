@@ -55,7 +55,6 @@ export default function Register() {
               helperText={errors.email?.message}
             />
             <TextField
-              autoFocus
               margin="normal"
               id="name"
               name="name"
@@ -67,7 +66,6 @@ export default function Register() {
               helperText={errors.name?.message}
             />
             <TextField
-              autoFocus
               margin="normal"
               id="rollNumber"
               name="rollNumber"
@@ -79,7 +77,6 @@ export default function Register() {
               helperText={errors.rollNumber?.message}
             />
             <TextField
-              autoFocus
               margin="normal"
               id="currentStandard"
               name="currentStandard"
@@ -91,7 +88,6 @@ export default function Register() {
               helperText={errors.currentStandard?.message}
             />
             <TextField
-              autoFocus
               margin="normal"
               id="password"
               name="password"
@@ -108,14 +104,15 @@ export default function Register() {
           </form>
 
           <Box
-            padding="1rem"
-            width="100%"
+            marginTop="1rem"
             display="flex"
             justifyContent="space-between"
             alignItems="flex-start"
           >
             <Typography component="span">Already have an Account?</Typography>{" "}
-            <Button onClick={() => navigate("/login")}>Log In</Button>
+            <Button variant="outlined" onClick={() => navigate("/login")}>
+              Log In
+            </Button>
           </Box>
         </CardContent>
       </Card>

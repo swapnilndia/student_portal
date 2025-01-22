@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const apiHelper = async ({
   method = "GET",
@@ -14,16 +15,18 @@ export const apiHelper = async ({
 
     const config = { method, url, data: body, headers };
     const response = await axios(config);
+    toast.success(response.data.message);
     return response.data;
   } catch (error) {
+    console.log(error);
     if (error.response) {
-      console.error("API Error Response:", error.response);
+      toast.error(error.response.data.message);
       throw error.response.data;
     } else if (error.request) {
-      console.error("API Error Request:", error.request);
+      toast.error("API Error Request:", error.request);
       throw new Error("No response received from the server.");
     } else {
-      console.error("API Error:", error.message);
+      toast.error("API Error:", error.message);
       throw new Error(error.message);
     }
   }

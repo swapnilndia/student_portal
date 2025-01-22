@@ -62,8 +62,6 @@ export default function EditPreviousRecord({ row, fetchPrevDetails }) {
           </DialogContentText>
           <form onSubmit={handleSubmit(onSubmit)}>
             <TextField
-              autoFocus
-              required
               margin="normal"
               id="standard"
               name="standard"
@@ -75,8 +73,6 @@ export default function EditPreviousRecord({ row, fetchPrevDetails }) {
               helperText={errors.standard?.message}
             />
             <TextField
-              autoFocus
-              required
               margin="normal"
               id="remarks"
               name="remarks"
@@ -88,8 +84,6 @@ export default function EditPreviousRecord({ row, fetchPrevDetails }) {
               helperText={errors.remarks?.message}
             />
             <TextField
-              autoFocus
-              required
               margin="normal"
               id="percentage"
               name="percentage"
@@ -101,8 +95,6 @@ export default function EditPreviousRecord({ row, fetchPrevDetails }) {
               helperText={errors.percentage?.message}
             />
             <Box
-              padding="1rem"
-              width="100%"
               display="flex"
               justifyContent="flex-end"
               alignItems="flex-end"
