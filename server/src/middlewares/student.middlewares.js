@@ -5,7 +5,6 @@ import bcrypt from "bcrypt";
 export const signupMiddleware = async (req, res, next) => {
   const { email } = req.body;
   const isExistingUser = await Student.findOne({ email: email });
-  console.log(isExistingUser);
   if (isExistingUser) {
     return res.status(409).json(
       new ApiError(409, `User with Email:- ${email} already exist`, {
@@ -18,7 +17,6 @@ export const signupMiddleware = async (req, res, next) => {
 
 export const signinMiddleware = async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(email, password);
   if (!email || !password) {
     return res.status(400).json(
       new ApiError(400, "Email and Password are required fields", {
@@ -37,7 +35,6 @@ export const signinMiddleware = async (req, res, next) => {
   }
   const hashedPassword = isExistingUser.password;
   const isPasswordCorrect = await bcrypt.compare(password, hashedPassword);
-  console.log(isPasswordCorrect);
   if (!isPasswordCorrect) {
     return res.status(401).json(
       new ApiError(401, "Email or Password does not match", {

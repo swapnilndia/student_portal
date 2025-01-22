@@ -6,7 +6,6 @@ import bcrypt from "bcrypt";
 
 export const signup_controller = async (req, res) => {
   const { name, email, rollNumber, currentStandard, password } = req.body;
-  console.log(name, email, rollNumber, currentStandard, password);
   try {
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
@@ -35,7 +34,6 @@ export const signup_controller = async (req, res) => {
         new ApiResponse(201, "User successfully Signed Up", createUser).toJSON()
       );
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json(
@@ -54,7 +52,6 @@ export const signin_controller = async (req, res) => {
   const { _id } = req.user;
   try {
     const access_token = generateAccessToken({ studentId: _id, email });
-    console.log(access_token);
     res.status(200).json(
       new ApiResponse(
         200,

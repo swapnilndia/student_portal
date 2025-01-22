@@ -10,7 +10,6 @@ export const validateSignupSchema = async (req, res, next) => {
       field: err.path,
       message: err.message,
     }));
-    console.log(errors);
     res
       .status(400)
       .json(new ApiError(400, "One or more validation error", errors).toJSON());
